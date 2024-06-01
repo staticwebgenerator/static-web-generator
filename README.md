@@ -1,5 +1,7 @@
 # static-web-generator
 
+- [Multi Markdown]https://fletcherpenney.net/multimarkdown/
+- [IA Metadata](https://ia.net/writer/support/editor/metadata)
 
 ## Dependencies
 
