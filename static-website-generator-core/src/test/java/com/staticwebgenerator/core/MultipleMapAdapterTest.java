@@ -17,7 +17,7 @@ class MultipleMapAdapterTest implements TestResourcesLoader {
         MetadataParser parser = new MetadataParser();
         Map<String, Object> globalMetadata = parser.parseProperties(propertiesFile);
         File file = getFile("liftoff/news-starcity.md");
-        Map<String, Object> fileMetadata = parser.parseMarkdown(file);
+        Map<String, Object> fileMetadata = parser.parseMarkdownDocument(file).metadata();
         Map<String, Object> metadata = new MultipleMapAdapter(List.of(fileMetadata, globalMetadata));
         assertEquals(Map.of("title", "Star City",
                 "date","2003-06-03",

@@ -28,7 +28,7 @@ class MetadataParserTest implements TestResourcesLoader {
         File file = getFile("liftoff/news-starcity.md");
 
         MetadataParser metadataParser = new MetadataParser();
-        Map<String, Object> metadata = metadataParser.parseMarkdown(file);
+        Map<String, Object> metadata = metadataParser.parseMarkdownDocument(file).metadata();
         assertEquals(Map.of("title", "Star City",
                 "date","2003-06-03"), metadata);
     }

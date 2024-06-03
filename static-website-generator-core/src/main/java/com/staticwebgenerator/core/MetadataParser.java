@@ -1,13 +1,11 @@
 package com.staticwebgenerator.core;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MetadataParser {
-    private static String METADATA_DELIMETER = "---";
+    private static final String METADATA_DELIMETER = "---";
 
     public Map<String, Object> parseProperties(Properties props) {
         return props.entrySet().stream()
@@ -17,8 +15,9 @@ public class MetadataParser {
                 ));
     }
 
-    public Map<String, Object> parseMarkdown(File file) throws IOException {
+    public MarkdownDocument parseMarkdownDocument(File file) throws IOException {
         Map<String, Object> metadata = new HashMap<>();
+        List<String> lines = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             boolean readingMetadata = false;
             String line;
@@ -33,10 +32,12 @@ public class MetadataParser {
                         metadata.put(arr[0].trim(), arr[1].trim());
                     }
                 }
-                // process the line.
+                if (!readingMetadata) {
+                    lines.add(line);
+                }
             }
         }
-        return metadata;
+        return new MarkdownDocument(metadata, lines);
     }
 
     public Map<String, Object> parseProperties(File file) throws IOException {
