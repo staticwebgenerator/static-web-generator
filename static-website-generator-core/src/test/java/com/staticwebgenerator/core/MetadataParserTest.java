@@ -4,19 +4,15 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Map;
-import static org.junit.jupiter.api.Assertions.*;
 
-class MetadataParserTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class MetadataParserTest implements TestResourcesLoader {
 
     @Test
     void parsePropertiesFile() throws IOException {
-        URL resource = getClass().getClassLoader().getResource("sergiodelamoweb/metadata.properties");
-        assertNotNull(resource);
-        File file = new File(resource.getFile());
-        assertTrue(file.exists());
-
+        File file = getFile("sergiodelamoweb/metadata.properties");
         MetadataParser metadataParser = new MetadataParser();
         Map<String, Object> metadata = metadataParser.parseProperties(file);
         assertEquals(Map.of("creator", "Sergio del Amo",
@@ -29,10 +25,7 @@ class MetadataParserTest {
 
     @Test
     void parseMarkdownFile() throws IOException {
-        URL resource = getClass().getClassLoader().getResource("liftoff/news-starcity.md");
-        assertNotNull(resource);
-        File file = new File(resource.getFile());
-        assertTrue(file.exists());
+        File file = getFile("liftoff/news-starcity.md");
 
         MetadataParser metadataParser = new MetadataParser();
         Map<String, Object> metadata = metadataParser.parseMarkdown(file);

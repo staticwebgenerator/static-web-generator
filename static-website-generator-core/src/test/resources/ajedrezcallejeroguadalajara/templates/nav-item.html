@@ -1,0 +1,5 @@
+<li xmlns:th="http://www.thymeleaf.org"
+    th:fragment="navItem(href, text, active)"
+    class="nav-item">
+    <a class="nav-link" th:classappend="${active} ? active : " th:href="${href}" th:text="${text}"></a>
+</li>
