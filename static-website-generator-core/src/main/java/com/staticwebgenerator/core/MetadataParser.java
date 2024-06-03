@@ -1,8 +1,17 @@
 package com.staticwebgenerator.core;
 
 import java.io.*;
+import java.nio.file.FileVisitResult;
+import java.nio.file.FileVisitor;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.nio.file.FileVisitResult.CONTINUE;
+import static java.nio.file.FileVisitResult.TERMINATE;
 
 public class MetadataParser {
     private static final String METADATA_DELIMETER = "---";
@@ -13,6 +22,37 @@ public class MetadataParser {
                         e -> e.getKey().toString(),
                         Map.Entry::getValue
                 ));
+    }
+
+
+    public List<Path> markdownPaths(Path path) throws IOException {
+        List<Path> paths = new ArrayList<>();
+        Files.walkFileTree(path, new FileVisitor<>() {
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
+                return CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+                String fileName = file.getFileName().toString();
+                if (fileName.endsWith(".md") || fileName.endsWith(".markdown")) {
+                    paths.add(file);
+                }
+                return CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFileFailed(Path file, IOException exc) {
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
+                return FileVisitResult.CONTINUE;
+            }
+        });
+        return paths;
     }
 
     public MarkdownDocument parseMarkdownDocument(File file) throws IOException {
