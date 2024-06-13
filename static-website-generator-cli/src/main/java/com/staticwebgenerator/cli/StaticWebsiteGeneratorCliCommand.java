@@ -1,9 +1,12 @@
 package com.staticwebgenerator.cli;
 
+import com.staticwebgenerator.core.Finder;
 import com.staticwebgenerator.core.MetadataParser;
+import com.staticwebgenerator.core.WebsiteGenerator;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 
+import jakarta.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
@@ -32,37 +35,26 @@ public class StaticWebsiteGeneratorCliCommand implements Runnable {
     @Option(names = { "-o", "--output" }, description = "the output directory", required = true)
     File output;
 
+    @Inject
+    WebsiteGenerator websiteGenerator;
+
     public static void main(String[] args) throws Exception {
         PicocliRunner.run(StaticWebsiteGeneratorCliCommand.class, args);
     }
 
     public void run() {
-        MetadataParser metadataParser = new MetadataParser();
-        boolean globalMetadataSupplied = metadata != null && metadata.exists();
         if (!posts.isDirectory()) {
-            info(true,posts.getAbsolutePath() + " is not a directory");
+            System.out.println(posts.getAbsolutePath() + " is not a directory");
             return;
         }
         if (!output.exists()) {
             output.mkdir();
         }
         if (output.exists() && !output.isDirectory()) {
-            info(true,output.getAbsolutePath() + " is not a directory");
+            System.out.println(output.getAbsolutePath() + " is not a directory");
             return;
         }
-        try {
-            Map<String, Object> globalMetadata = globalMetadataSupplied
-                    ? metadataParser.parseProperties(metadata)
-                    : Collections.emptyMap();
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    void info(boolean verbose, String message) {
-        if (verbose) {
-            System.out.println(message);
-        }
+        websiteGenerator.generateWebsite(posts, output, metadata);
     }
 }
