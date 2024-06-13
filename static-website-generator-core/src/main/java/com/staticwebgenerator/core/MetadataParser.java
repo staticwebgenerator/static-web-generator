@@ -15,6 +15,8 @@ import static java.nio.file.FileVisitResult.TERMINATE;
 
 public class MetadataParser {
     private static final String METADATA_DELIMETER = "---";
+    public static final String SUFFIX_MD = ".md";
+    public static final String SUFFIX_MARKDOWN = ".markdown";
 
     public Map<String, Object> parseProperties(Properties props) {
         return props.entrySet().stream()
@@ -36,7 +38,7 @@ public class MetadataParser {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
                 String fileName = file.getFileName().toString();
-                if (fileName.endsWith(".md") || fileName.endsWith(".markdown")) {
+                if (fileName.endsWith(SUFFIX_MD) || fileName.endsWith(SUFFIX_MARKDOWN)) {
                     paths.add(file);
                 }
                 return CONTINUE;
