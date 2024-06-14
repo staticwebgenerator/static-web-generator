@@ -19,8 +19,12 @@ public class DefaultWebsiteGenerator implements WebsiteGenerator {
     public static final String MARKDOWN = "*.md";
     private final MetadataParser metadataParser;
 
-    public DefaultWebsiteGenerator(MetadataParser metadataParser) {
+    private final MetadataKeyReplacer metadataKeyReplacer;
+
+    public DefaultWebsiteGenerator(MetadataParser metadataParser,
+                                   MetadataKeyReplacer metadataKeyReplacer) {
         this.metadataParser = metadataParser;
+        this.metadataKeyReplacer = metadataKeyReplacer;
     }
 
     public void generateWebsite(
@@ -32,18 +36,18 @@ public class DefaultWebsiteGenerator implements WebsiteGenerator {
             Map<String, Object> globalMetadata = globalMetadataSupplied
                     ? metadataParser.parseProperties(globalMetadataFile)
                     : Collections.emptyMap();
-
-
             Path path = Path.of(postsDirectory.getAbsolutePath());
             Finder finder = new Finder(MARKDOWN);
             Files.walkFileTree(path, finder);
             finder.getPaths()
-                    .stream()
+                    .parallelStream()
                     .map(p -> metadataParser.parseMarkdownDocument(p))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
-                    .map(md -> new MarkdownDocument(new MultipleMapAdapter(List.of(globalMetadata, md.metadata())), md.lines()));
-
+                    .map(md -> {
+                        Map<String, Object> metadata = new MultipleMapAdapter(List.of(globalMetadata, md.metadata()));
+                        return new MarkdownDocument(metadata, metadataKeyReplacer.replace(md.lines(), metadata));
+                    });
 
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -8,6 +8,7 @@ flexmark = "0.64.0"
 flexmark = { group = "com.vladsch.flexmark", name = "flexmark", version.ref = "flexmark" }
 flexmark-ext-tables = { group = "com.vladsch.flexmark", name = "flexmark-ext-tables", version.ref = "flexmark" }
 micronaut-platform = { group = "io.micronaut.platform", name = "micronaut-platform", version.ref = "micronaut" }
+micronaut-test-junit5 = { group = "io.micronaut.test", name = "micronaut-test-junit5" }
 micronaut-views = { group = "io.micronaut.views", name = "micronaut-views" }
 micronaut-inject-java = { group = "io.micronaut", name = "micronaut-inject-java" }
 micronaut-views-thymeleaf = { group = "io.micronaut.views", name = "micronaut-views-thymeleaf" }
