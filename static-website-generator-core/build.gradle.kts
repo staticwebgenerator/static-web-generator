@@ -7,6 +7,7 @@ repositories {
 dependencies {
     annotationProcessor(platform(libs.micronaut.platform))
     annotationProcessor(libs.micronaut.inject.java)
+    implementation(libs.micronaut.context)
     implementation(platform(libs.micronaut.platform))
     implementation(libs.micronaut.views.thymeleaf)
     implementation(libs.flexmark)
