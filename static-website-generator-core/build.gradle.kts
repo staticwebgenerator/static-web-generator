@@ -18,6 +18,7 @@ dependencies {
     testAnnotationProcessor(libs.micronaut.inject.java)
     testImplementation(platform(libs.micronaut.platform))
     testImplementation(libs.micronaut.test.junit5)
+    runtimeOnly("org.yaml:snakeyaml")
 }
 tasks.withType<Test> {
     useJUnitPlatform()

@@ -3,21 +3,21 @@ package com.staticwebgenerator.core;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
 import io.micronaut.core.naming.Named;
-import io.micronaut.runtime.context.scope.Refreshable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-@Refreshable
-@EachProperty("menus")
-public class Nav implements Named {
+
+@EachProperty("nav")
+class Nav implements Named {
     private String name;
 
     public Nav(@Parameter String name) {
         this.name = name;
     }
 
-    private List<NavItem> items = new ArrayList<>();
+    private List<Map<String, String>> items = new ArrayList<>();
 
     @Override
     public String getName() {
@@ -28,11 +28,12 @@ public class Nav implements Named {
         this.name = name;
     }
 
-    public List<NavItem> getItems() {
+    public List<Map<String, String>> getItems() {
         return items;
     }
 
-    public void setItems(List<NavItem> items) {
+    public void setItems(List<Map<String, String>> items) {
         this.items = items;
     }
 }
+

@@ -25,21 +25,23 @@ public class NavParser {
     }
 
     public Collection<Nav> parse(File file) throws IOException {
+        defaultEnvironment.addPropertySource("menu", propertiesToMap(file));
+        return applicationContext.getBeansOfType(Nav.class);
+    }
 
+    private static Map<String, Object> propertiesToMap(File file) throws IOException {
         Properties props = new Properties();
         try (InputStream inputStream = new FileInputStream(file)) {
             props.load(inputStream);
         }
-        Map<String, Object> finalMap = new HashMap<>();
+        return propertiesToMap(props);
+    }
+
+    private static Map<String, Object> propertiesToMap(Properties props) {
+        Map<String, Object> m = new HashMap<>();
         for (Map.Entry<Object, Object> entry : props.entrySet()) {
-            finalMap.put(entry.getKey().toString(), entry.getValue());
+            m.put(entry.getKey().toString(), entry.getValue());
         }
-        MapPropertySource mapPropertySource = new MapPropertySource("menu", finalMap);
-
-
-        defaultEnvironment.addPropertySource(mapPropertySource);
-        applicationContext.publishEvent(new RefreshEvent());
-
-        return applicationContext.getBeansOfType(Nav.class);
+        return m;
     }
 }

@@ -1,6 +1,6 @@
 [versions]
 junit5 = "5.8.1"
-micronaut = "4.4.3"
+micronaut = "4.5.0"
 flexmark = "0.64.0"
 
 
