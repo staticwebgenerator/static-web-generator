@@ -7,6 +7,8 @@ import java.io.File;
 
 public interface WebsiteGenerator {
     void generateWebsite(
+            @NonNull File navFile,
+            @NonNull File themeDirectory,
             @NonNull File postsDirectory,
             @NonNull File outputDirectory,
             @Nullable File globalMetadata);

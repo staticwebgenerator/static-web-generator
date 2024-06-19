@@ -8,8 +8,9 @@
         </encoder>
     </appender>
 
-    <root level="warn">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>
     <logger name="com.staticwebgenerator" level="INFO"/>
+    <logger name="io.micronaut.context" level="WARN"/>
 </configuration>

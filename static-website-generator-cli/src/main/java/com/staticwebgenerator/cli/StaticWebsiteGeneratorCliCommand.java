@@ -4,7 +4,6 @@ import com.staticwebgenerator.core.WebsiteGenerator;
 import io.micronaut.configuration.picocli.PicocliRunner;
 
 import io.micronaut.context.BeanContext;
-import io.micronaut.context.env.PropertySourceLoader;
 import jakarta.inject.Inject;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -37,9 +36,6 @@ public class StaticWebsiteGeneratorCliCommand implements Runnable {
     @Inject
     BeanContext beanContext;
 
-    @Inject
-    PropertySourceLoader propertySourceLoader;
-
     public static void main(String[] args) throws Exception {
         PicocliRunner.run(StaticWebsiteGeneratorCliCommand.class, args);
 
@@ -62,6 +58,6 @@ public class StaticWebsiteGeneratorCliCommand implements Runnable {
             return;
         }
 
-        websiteGenerator.generateWebsite(posts, output, metadata);
+        websiteGenerator.generateWebsite(nav, theme, posts, output, metadata);
     }
 }

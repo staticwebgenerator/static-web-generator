@@ -1,0 +1,7 @@
+<th:block th:fragment="nav(items)" xmlns:th="http://www.thymeleaf.org">
+    <nav class="nav nav-underline justify-content-between">
+        <th:block th:each="item : ${items}">
+            <div th:replace="~{/nav-item :: nav-item(${item})}"/>
+        <th:block>
+    </nav>
+</th:block>
