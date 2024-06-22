@@ -14,6 +14,6 @@ class DefaultMarkdownDocumentRenderer implements MarkdownDocumentRenderer {
     public HtmlDocument render(MarkdownDocument markdownDocument) {
         String markdown = String.join("\n", markdownDocument.lines());
         String html = markdownToHtml.render(markdown);
-        return new HtmlDocument(markdownDocument.metadata(), html);
+        return new HtmlDocument(markdownDocument.metadata(), markdownDocument.lines(), html);
     }
 }

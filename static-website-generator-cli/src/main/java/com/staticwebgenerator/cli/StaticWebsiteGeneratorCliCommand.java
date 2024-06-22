@@ -24,6 +24,9 @@ public class StaticWebsiteGeneratorCliCommand implements Runnable {
     @Option(names = { "-p", "--posts" }, description = "the posts directory", required = true)
     File posts;
 
+    @Option(names = {"--pages" }, description = "the posts directory", required = true)
+    File pages;
+
     @Option(names = { "-t", "--theme" }, description = "the theme directory", required = true)
     File theme;
 
@@ -46,6 +49,10 @@ public class StaticWebsiteGeneratorCliCommand implements Runnable {
             System.out.println(posts.getAbsolutePath() + " is not a directory");
             return;
         }
+        if (!pages.isDirectory()) {
+            System.out.println(pages.getAbsolutePath() + " is not a directory");
+            return;
+        }
         if (!theme.isDirectory()) {
             System.out.println(theme.getAbsolutePath() + " is not a directory");
             return;
@@ -58,6 +65,6 @@ public class StaticWebsiteGeneratorCliCommand implements Runnable {
             return;
         }
 
-        websiteGenerator.generateWebsite(nav, theme, posts, output, metadata);
+        websiteGenerator.generateWebsite(nav, theme, pages, posts, output, metadata);
     }
 }

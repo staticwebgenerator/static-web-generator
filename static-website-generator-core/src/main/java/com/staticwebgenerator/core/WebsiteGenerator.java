@@ -9,6 +9,7 @@ public interface WebsiteGenerator {
     void generateWebsite(
             @NonNull File navFile,
             @NonNull File themeDirectory,
+            @NonNull File pagesDirectory,
             @NonNull File postsDirectory,
             @NonNull File outputDirectory,
             @Nullable File globalMetadata);

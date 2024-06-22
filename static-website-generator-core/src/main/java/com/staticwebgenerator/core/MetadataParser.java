@@ -63,25 +63,25 @@ public class MetadataParser {
         return paths;
     }
 
-    public Optional<MarkdownDocument> parseMarkdownDocument(Path path) {
+    public Optional<MetadataDocument> parseMetadataDocument(Path path) {
         try {
-        return parseMarkdownDocument(new FileReader(path.toFile()));
+        return parseMetadataDocument(new FileReader(path.toFile()));
         } catch (IOException e) {
             LOG.error("{}", e);
             return Optional.empty();
         }
     }
 
-    public Optional<MarkdownDocument> parseMarkdownDocument(File file)  {
+    public Optional<MetadataDocument> parseMetadataDocument(File file)  {
         try {
-            return parseMarkdownDocument(new FileReader(file));
+            return parseMetadataDocument(new FileReader(file));
         } catch (IOException e) {
             LOG.error("{}", e);
             return Optional.empty();
         }
     }
 
-    public Optional<MarkdownDocument> parseMarkdownDocument(FileReader fileReader) {
+    public Optional<MetadataDocument> parseMetadataDocument(FileReader fileReader) {
         try {
             Map<String, Object> metadata = new HashMap<>();
             List<String> lines = new ArrayList<>();
@@ -104,7 +104,18 @@ public class MetadataParser {
                     }
                 }
             }
-            return Optional.of(new MarkdownDocument(metadata, lines));
+            return Optional.of(new MetadataDocument() {
+
+                @Override
+                public Map<String, Object> metadata() {
+                    return metadata;
+                }
+
+                @Override
+                public List<String> lines() {
+                    return lines;
+                }
+            });
 
         } catch (IOException e) {
             LOG.error("{}", e);
